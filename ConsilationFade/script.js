@@ -9,9 +9,6 @@ let mouse = {
     y: undefined,
 }
 
-//code
-let particlesArray = [];
-
 window.addEventListener("resize", function(){
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight
@@ -30,6 +27,8 @@ canvas.addEventListener('mousemove', function(event){
     //console.log(mouse);
 });
 
+//code
+let particlesArray = [];
 
 class Particle{
     constructor(){
@@ -67,19 +66,21 @@ class Particle{
         let mouseDistX = mouse.x - this.x;
         let mouseDistY = mouse.y - this.y;
         let mouseDist = Math.sqrt(mouseDistX * mouseDistX + mouseDistY * mouseDistY);
-        if(mouseDist < 100 && mouseDist > -100){
+        if(mouseDist < 50 && mouseDist > -100){
             this.opacity =0.8;
             //console.log(this.opacity);
         }
-        else if(mouseDist < 200 && mouseDist> -200){
+        else if(mouseDist < 100 && mouseDist> -200){
             this.opacity = 0.3;
+        }
+        else if(mouseDist < 150 && mouseDist> -200){
+            this.opacity = 0.1;
         }
         else{
             this.opacity = 0.00;
         }
         this.color = 'rgba(66, 255, 178, ' + this.opacity + ')';
         this.lineColor = 'rgba(66, 255, 178, ' + this.opacity/2 + ')';
-
     }
     draw(){
         ctx.fillStyle = this.color;
@@ -130,7 +131,7 @@ function handleParticles(){
             //     toY = particlesArray[l].y - particlesArray[l].radius;
             // }
 
-            if(distance < 200){
+            if(distance < 150){
                 ctx.beginPath();
                 ctx.strokeStyle = particlesArray[l].color;
                 ctx.lineWidth = particlesArray[i]/3;
@@ -172,7 +173,8 @@ function handleParticles(){
 }
 
 function drawParticles(){
-    for(let i =0; i < 100; i++){
+    let screenArea = canvas.width * canvas.height;
+    for(let i =0; i < screenArea * 0.0001; i++){
         particlesArray.push(new Particle());
     }
 }
